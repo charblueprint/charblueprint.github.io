@@ -1,0 +1,681 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>7. JSP(Java Server Page)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="78805450-3ed8-4999-9fb1-65c65175ac82" class="page sans"><header><h1 class="page-title">7. JSP(Java Server Page)</h1></header><div class="page-body"><p id="63fe17db-a38c-49dc-9061-84a0779c0d6a" class="">✔️ Servlet의 변형 / HTML 코드에 자바 코드를 삽입하는 형태로 사용할 수 있는 <mark class="highlight-orange_background"><strong>Java Web component </strong></mark></p><p id="00871423-ef5d-446d-b492-133aea772394" class="">
+</p><p id="8fb03ace-3b61-43f5-9a9d-317c2b757b42" class="">✔️ 최근의 web Programming 에서 <mark class="highlight-orange_background"><strong>MVC 패턴이나 Model2 패턴이 등장 </strong></mark></p><p id="55950eda-1a63-4b84-abc6-caad4d45c555" class="">→ <mark class="highlight-orange_background"><strong>jsp 파일에 java 코드</strong></mark>(스크립트릿 - java 로직, 표현식 - java 데이터 직접 출력)을 <mark class="highlight-orange_background"><strong>직접 사용하는 것을 금기시</strong></mark></p><blockquote id="4fff99cf-daf8-4876-819c-3bdf6a006b1d" class=""><strong><mark class="highlight-red_background">MVC(Model view Controller) 패턴</mark></strong> : 역할 별로 분리 작성<p id="447dbf55-73b4-4c1b-a227-a03b96f18f57" class="">Model : 데이터를 만들어내는 부분 - <strong><mark class="highlight-red_background">Service, Repository, VO-DTO-entity</mark></strong>등</p><p id="cb4a9aca-ed98-4d50-bc30-099038fd5938" class="">View : 화면 출력 부분 -<mark class="highlight-red_background"> </mark><strong><mark class="highlight-red_background">JSP</mark></strong></p><p id="3f1516f4-c01d-4b2c-b500-48998636814c" class="">controller 2개를 연결 시켜주는 부분 - <strong><mark class="highlight-red_background">Servlet</mark></strong></p></blockquote><p id="0fa40310-4f10-46af-8cf8-b1bd442b1c36" class="">
+</p><p id="956bb7e5-a7e3-4e85-afa3-d3390c805643" class="">✔️ 한동안은 JSP 파일에 EL과 JSTL을 이용해 출력</p><p id="448c4e3f-cf4c-4d9a-a519-4cebf733f564" class="">JSP : Server 측에서 해석 → HTML 코드를 클라이언트에 전송</p><p id="8352ba06-8cae-45de-8cd3-65a74863d2c5" class="">최근 : 서버에서 렌더링을 하지 말자는 추세 → JSP 사용률 저하</p><p id="a9c4bd75-4eee-4c65-8f0f-d52843acd6d0" class="">이유 : 클라이언트 디바이스의 다양화 ⇒ 모든 클라이언트의 요청에 맞추어서 화면 구성이 힘듦</p><p id="b6c72336-ddbc-44b3-9c65-1d670ad67080" class="">
+</p><p id="8f16dc0a-4845-4919-b548-d68febf1c706" class="">✔️ 그래서 서버에서 REST API 형태로 json 형식의 데이터를 전송 </p><p id="610a45de-3a2f-4f77-b870-1997e439ca2a" class="">→ 클라이언트 측: web socket, ajax, FETCH API등을 이용해서 데이터를 전송 </p><p id="f60ecd55-9731-48fb-b2b7-244b386c5406" class="">→ 전송 받은 데이터를 파싱 해서 직접 출력</p><p id="687533a9-3d0b-4ea1-b9b6-596a4ca1ce72" class="">
+</p><p id="c5287443-d48f-4e78-904f-e6d108ae0132" class="">✔️ 이러한 작업을 단순화해주는 라이브러리 :<mark class="highlight-yellow_background"><strong> React / Vue / Angular</strong></mark></p><p id="6937e6b0-79d1-48cb-95be-a43df77ea71c" class="">
+</p><p id="e4fecb0c-c59f-4a17-83cb-9a6bdf89a139" class="">1) <mark class="highlight-blue_background">내장 객체</mark>
+<code>HttpServletRequest request</code>: </p><p id="989b780a-e7ee-4203-be3d-2f797638d83d" class="">✔️ 클라이언트의 요청 정보를 저장한 클래스의 객체</p><p id="0d4d98ae-f5f8-4b27-ae07-7ad195cc9e78" class="">✔️ jsp에서는 내장이고 Servlet 에서는 요청 처리 메서드의 첫 번째 매개변수</p><p id="d92f1deb-137e-4e45-97b9-de0f86c8a87f" class="">✔️ 이 객체를 이용해서 클라이언트의 정보를 읽음</p><p id="7026b5c2-b304-44d7-b047-f49372f9b825" class="">✔️ 클라이언트의 정보 중에서 가장 대표적인 것 : 요청 방식, 요청 URL, 파라미터 등</p><p id="22e85f1e-b4f7-4b31-bf11-c42850176501" class="">
+</p><ul id="7941dbee-ebc8-450d-88b3-62bedd99b954" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><em>요청 방식 </em></span><ul id="7c232a2d-9f08-4687-b0dd-2d417a5fe997" class="bulleted-list"><li style="list-style-type:circle"><em><strong>GET</strong></em> : <p id="f17e760f-c1d8-4bb1-9e65-d360218f64cb" class="">🔹데이터를 <mark class="highlight-yellow_background"><strong>URL에 붙여서 전송</strong></mark>하는 방식</p><p id="27b4502f-a021-44b3-8e20-edad4db5ec19" class="">🔹URL 뒤에 <strong>?</strong>를 추가하고 <code>속성이름=값&amp;</code>의 형태로 전송(<strong>query String </strong>이라고도 함)</p><p id="033a4a30-3459-41df-8681-1db13d51aeec" class="">🔹파라미터의 길이에 <mark class="highlight-yellow_background">제한 ⭕</mark></p><p id="f1d360da-d0c3-41f2-9e3a-f2c5246e3715" class="">🔹보안성 ⬇️</p><p id="6c2b75c2-ffab-4736-9864-152761579419" class="">🔹자동 재 전송 기능 ⭕ </p><p id="2f8e37cd-078c-4b1d-8b2a-c33c2e4cbf4b" class="">🔹일반적으로 읽기 작업에 사용</p></li></ul><ul id="7d4854cd-9a6f-44f6-8316-cbfd50f29dfd" class="bulleted-list"><li style="list-style-type:circle"><em><strong>POST</strong></em> : <p id="ff13a285-3d39-4fa4-a369-95e9bb8c9f2d" class="">🔹데이터를 <mark class="highlight-yellow_background"><strong>요청 헤더에 숨겨서 전송</strong></mark>하는 방식</p><p id="5cb894cb-7d12-40b1-b1c3-69039d42187a" class="">🔹길이에 제한 ❌ 외부로 노출 ❌ → 보안성 ⬆️ </p><p id="d3b378d8-1c02-4643-9b41-2ca8e3dc349f" class="">🔹자동 재 전송 기능 ❌</p><p id="2de9b122-6a8b-409b-b1f0-9ad9faed8ab5" class="">🔹전에는 삽입, 삭제, 갱신 등에 모두 이용했지만 최근에는 <mark class="highlight-yellow_background"><strong>삽입에만 이용</strong></mark><strong>하는 것을 권장</strong></p><p id="87ac66bd-716c-4804-be6d-94f9d7bf1207" class="">🔹반드시 인코딩을 해서 전송하고 읽는 곳에서 인코딩 설정을 해서, 읽어야 한다면 전송하고자 하는 데이터에 파일이 있거나 <mark class="highlight-yellow_background"><strong>textarea, password가 있다면 GET으로 전송</strong></mark><strong> </strong>❌</p><p id="a3ccfbc1-2870-43df-975d-deb9a48ed10f" class="">🔹<span style="border-bottom:0.05em solid">파일을 전송</span>할 때<strong> </strong><mark class="highlight-yellow_background"><strong>enctype</strong></mark>을<strong>  </strong><mark class="highlight-yellow_background"><strong>multipart/form-data</strong></mark>로 설정</p></li></ul><ul id="1b618647-d7c5-48a4-b6ae-42be4ab29a72" class="bulleted-list"><li style="list-style-type:circle"><em><strong>PUT</strong></em> : POST와 동일 (<mark class="highlight-yellow_background">수정</mark> 시 사용)</li></ul><ul id="fc4dd1f8-05bd-40ce-8bee-0631a29f1a3d" class="bulleted-list"><li style="list-style-type:circle"><em><strong>DELETE</strong></em> : POST와 동일(<mark class="highlight-yellow_background">삭제</mark> 시 사용)</li></ul><p id="594b473d-7a65-45ef-8f7c-d05fc449e9f3" class="">
+</p></li></ul><ul id="c2ca2a43-1cde-43ec-a4bd-2467b9a4be04" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid"><em>파라미터</em></span><p id="9b6f739a-471a-4e46-b10a-67b9706f5b6e" class="">✔️ 파라미터를 읽을 때는 <mark class="highlight-yellow_background"><em><strong>request.getParameter</strong></em></mark><em><strong> / </strong></em><mark class="highlight-yellow_background"><em><strong>request.getParameterValues</strong></em></mark><em><strong> </strong></em>메소드 이용</p><p id="2f8a8918-6f4d-4f87-968c-adc96989a90c" class="">✔️ <mark class="highlight-yellow_background"><strong>Spring</strong></mark>에서는 대부분 파라미터를 <mark class="highlight-yellow_background"><strong>VO나 DTO class</strong></mark>를 이용해서 읽음</p><p id="7ce53176-8716-46ba-a40d-bac10a16037e" class="">✔️ 최근에는 <mark class="highlight-yellow_background"><strong>하나의 파라미터</strong></mark> 같은 경우는 파라미터를 이용하지 않고 <mark class="highlight-yellow_background"><strong>URL 이용</strong></mark></p><p id="79ebbfa1-a644-4cfc-9261-c2b438b2b50b" class="">✔️ <strong><em>request</em></strong> 객체 이용 → 접속한 클라이언트의 IP나 referrer나 운영체제 종류 및 브라우저 종류를 파악 가능</p><p id="9897dbb2-c236-4af1-bfe0-a290c83c980b" class="">✔️ <mark class="highlight-yellow_background"><em><strong>HttpServletResponse response</strong></em></mark> : </p><p id="644cd0bd-4f90-484d-9143-1bfc8890d674" class="">요청 처리 메소드의 2번째 매개변수 ⇒ <strong>응답 객체로 클라이언트에게 응답을 전송할 때</strong> 사용</p><p id="003ccab4-5a40-4a36-8347-db24491bd567" class="">✔️ <mark class="highlight-yellow_background"><em><strong>JSPWriter out</strong></em></mark>: </p><p id="7be88dd6-711d-41d8-a930-52d6d83ec20a" class="">🔹 Servlet에서는 response를 이용해 생성</p><p id="a38a8ba3-5bd8-4f25-8453-345fa319b4af" class="">🔹 클라이언트의 브라우저에 출력하기 위해서 버퍼에 기록하는 클래스의 인스턴스</p><p id="e054d5dc-73d1-47ce-b135-3178416c0135" class="">✔️ <strong><mark class="highlight-yellow_background"><em>ServletContext application</em></mark></strong>: 모든 클라이언트가 공유할 수 있는 객체</p><p id="1ee2b604-db39-40f8-b313-03f279ac48b1" class="">✔️ <code>HttpSession session </code></p><p id="6ce7bbaa-10ed-476a-928b-10325ba282bb" class="">🔹 request 객체를 이용해서 생성 가능 </p><p id="33303fe5-5738-4078-9b7f-5e1166d3f211" class="">🔹 하나의 클라이언트가 사용할 수 잇는 객체로 접속할 때 만들어지고 접속이 끝나면 소멸</p><p id="2bf3a247-d6c0-4901-8e82-4ca401372ef9" class="">✔️ <mark class="highlight-yellow_background"><em><strong>Object page</strong></em></mark> : 하나의 페이지가 생성될 때 만들어지고 페이지가 없어질 때 소멸되는 객체</p><p id="e7b80879-a431-4bf7-afa0-9b9fc69ba776" class="">✔️ <mark class="highlight-yellow_background"><em><strong>ServletConfig config</strong></em></mark> : 서블릿 환경 설정 정보</p><p id="15f26bbb-01ea-408f-83ff-a09a468aa347" class="">✔️ <mark class="highlight-yellow_background"><em><strong>PageContext pageContext</strong></em></mark>: JSP 페이지 내에서 사용할 수 있는 데이터 저장 기능을 소유한 객체</p><p id="4d4f7465-86eb-4a39-ade9-c74d7c191ce9" class="">✔️ <mark class="highlight-yellow_background"><em><strong>Throwable exception</strong></em></mark>: 예외 발생했을 때 예외 내용을 가지고 있는 객체</p><p id="9bce8582-4013-4488-a560-d691a26041f2" class="">
+</p></li></ul><p id="a7df2fac-7c58-426e-9514-6f73eadf8fa7" class="">2) <mark class="highlight-blue_background">서버 측 요청 흐름 제어</mark></p><p id="f5644a9a-413a-4cb0-a4d9-ab2c3dac3f63" class="">⇒ <mark class="highlight-yellow_background"><em><strong>forward</strong></em></mark>: </p><p id="3ae7e87f-4dde-4a7a-8a7d-e129da5724bd" class="">현재 요청을 종료하지 않고 이어나가는 흐름</p><p id="22ef3efa-4b72-4985-bc96-1e17a541fafa" class="">request와 session그리고 application 객체 모두 유지가 됩니다.</p><p id="c407a3dc-2868-44f8-8f26-2948eb9fa16e" class="">url이 변경되지 X</p><p id="9c65b4ae-0129-4c11-b06a-c37984b27a6a" class="">읽기 작업에서 결과 페이지로 이동할 때 주로 사용</p><p id="224091dd-8cf0-459e-8fb2-cb46c4c040c2" class="">
+</p><p id="a27ef2d9-4704-464c-aee6-3cf106d63d47" class="">⇒ <mark class="highlight-yellow_background"><em><strong>redirect</strong></em></mark> : </p><p id="0a451880-7c51-4c72-ac92-767b8cef19b6" class="">현재 요청을 종료하고 새로운 흐름을 만드는 것</p><p id="724391be-9564-42f1-96b9-1da132a2f533" class="">request 객체를 새로 만들어지고 session 그리고 application 객체 모두 유지됨</p><p id="8336a889-140c-42d9-9dfc-ac5dbfa04f17" class="">url이 변경</p><p id="bc2c9d99-e616-4c92-a252-7c3d45765b1d" class="">삽입,삭제,갱신 작업을 수행할 때 주로 하지만 트래픽 제어를 위해서 읽기 작업에서 사용하기도 함</p><p id="8a508e4f-d205-4c1a-a685-22093161c875" class="">
+</p><p id="980d46b6-3c36-41d7-bc26-94720809c763" class="">
+</p><p id="b1ce8710-8a9d-477d-a796-41d431003b6e" class="">키보드 → 키보드버퍼 → 버퍼</p><p id="13b320af-2b6a-4dda-b2fe-5ec31f9fc90d" class="">+) 넥슨 같은 게임 회사는 핑 문제 때문에 js로 위도 경도 찍기 같은 위치 관련 문제도 나오고 최단 경로 찾기 알고리즘 문제도 왕왕 나옴</p><p id="9c93387e-d1d9-4daf-a80f-20319ae6bcb5" class="">브라우저끼리 인코딩방식이 다름</p><p id="b5902e6b-dfce-4b72-a5ac-1dfcba2efd48" class="">print →모아서 출력 / println→ 바로 출력 / printf</p><p id="9020db0c-29e3-42d3-a0c8-c5b76b13b65e" class="">버퍼 중요</p><p id="a0173b77-4f74-439a-8905-54b477dde3b2" class="">버퍼를 강제로 지우는 것 → flush</p><p id="fad02f46-83d1-49ef-9da5-ba8f03fbd7f8" class="">addEventListner 사용을 권장함</p></div></article></body></html>
